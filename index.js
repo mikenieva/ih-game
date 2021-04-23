@@ -160,7 +160,7 @@ const bird = {
         this.period = state.current == state.getReady ? 10 : 5;
         // INCREMENTAMOS EL FRAME POR 1 CUANDO TENGAMOS UN MÓDULUS DE CERO EN 5 O 10 FRAMES, DEPENDIENDO EL PERIOD
         this.frame += frames%this.period == 0 ? 1 : 0;
-        // FRAME GOES FROM 0 To 4, THEN AGAIN TO 0
+        // FRAME VA DE 0 A 4. Y LUEGO, REINICIA
         this.frame = this.frame%this.animation.length;
         // 0 % 4 = 0
         // 1 % 4 = 1
