@@ -175,9 +175,9 @@ const bird = {
             this.speed += this.gravity; // DE LO CONTRARIO, SI NO ESTAMOS EN ESTADO DE INICIO, APLICAR GRAVEDAD A LA VELOCIDAD
             this.y += this.speed; // AGREGAR LA VELOCIDAD A LA CAÍDA DE LA COORDENADA Y
             
-            if(this.y + this.h/2 >= cvs.height - fg.h){
-                this.y = cvs.height - fg.h - this.h/2;
-                if(state.current == state.game){
+            if(this.y + this.h/2 >= cvs.height - fg.h){ // SI TOCO EL SUELO...
+                this.y = cvs.height - fg.h - this.h/2; // INMOVILIZAMOS AL PÁJARO RESTANDO LA ALTURA DEL CANVAS MENOS EL PISO MENOS LA ALTURA DEL PÁJARO
+                if(state.current == state.game){ // 
                     state.current = state.over;
                     DIE.play();
                 }
@@ -212,7 +212,6 @@ const getReady = {
             ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
         }
     }
-    
 }
 
 // OBTENEMOS UN GAME OVER
@@ -258,10 +257,10 @@ const pipes = {
             let topYPos = p.y;
             let bottomYPos = p.y + this.h + this.gap;
             
-            // top pipe
+            // PIPAS DE ARRIBA
             ctx.drawImage(sprite, this.top.sX, this.top.sY, this.w, this.h, p.x, topYPos, this.w, this.h);  
             
-            // bottom pipe
+            // PIPAS DE ABAJO
             ctx.drawImage(sprite, this.bottom.sX, this.bottom.sY, this.w, this.h, p.x, bottomYPos, this.w, this.h);  
         }
     },
@@ -269,24 +268,24 @@ const pipes = {
     update: function(){
         if(state.current !== state.game) return;
         
-        if(frames%100 == 0){
-            this.position.push({
+        if(frames%100 == 0){ 
+            this.position.push({ // SE EMPUJAN LAS PIPAS
                 x : cvs.width,
                 y : this.maxYPos * ( Math.random() + 1)
             });
         }
         for(let i = 0; i < this.position.length; i++){
-            let p = this.position[i];
+            let p = this.position[i]; // ELIGE LA PIPA ACTUAL
             
             let bottomPipeYPos = p.y + this.h + this.gap;
             
             // DETECCIÓN DE COLISIONES
-            // PIPA TECHO
+            // PIPAS DE ARRIBA
             if(bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + this.w && bird.y + bird.radius > p.y && bird.y - bird.radius < p.y + this.h){
                 state.current = state.over;
                 HIT.play();
             }
-            // PIPA PISO
+            // PIPAS DE ABAJO
             if(bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + this.w && bird.y + bird.radius > bottomPipeYPos && bird.y - bird.radius < bottomPipeYPos + this.h){
                 state.current = state.over;
                 HIT.play();
